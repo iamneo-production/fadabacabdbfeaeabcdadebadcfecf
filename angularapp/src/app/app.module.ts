@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { UserRegistrationComponent } from './user-registration.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
+import { ConvertPipe } from './convert.pipe';
 
 @NgModule({
   declarations: [
-    UserRegistrationComponent
+    AppComponent,
+    ConvertPipe
   ],
   imports: [
-    CommonModule,
-    ReactiveFormsModule
+    BrowserModule,
+    FormsModule,
+        ReactiveFormsModule
   ],
-  exports: [
-    UserRegistrationComponent
-  ]
+  providers: [],
+  bootstrap: [AppComponent]
 })
-export class UserRegistrationModule { }
+export class AppModule { }
