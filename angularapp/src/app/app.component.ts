@@ -1,42 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-user-registration',
+  templateUrl: './user-registration.component.html',
+  styleUrls: ['./user-registration.component.css']
 })
-export class AppComponent implements OnInit{
-  myForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) { }
+export class UserRegistrationComponent {
+  userForm: FormGroup;
 
-  ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
-      firstName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-z]*$')]],
-      gender: ['', Validators.requiredTrue],
+  constructor(private formBuilder: FormBuilder) {
+    this.userForm = this.formBuilder.group({
+      firstName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z]+$')]],
+      gender: ['', Validators.required],
       country: ['', Validators.required],
       city: ['', Validators.required],
-      age: ['',Validators.required]
+      age: ['']
     });
   }
-  ageValidator(control:any ) {
-    if (
-      control.parent &&
-      control.parent.controls['country'].value &&
-      (control.parent.controls['country'].value === 'US' ||
-        control.parent.controls['country'].value === 'Canada' ||
-        control.parent.controls['country'].value === 'India')
-    ) {
-      return Validators.required(control);
-    }
 
-    return null;
-  }
-  onSubmit(): void {
-    if (this.myForm.valid) {
-      console.log(this.myForm.value);
+  onSubmit() {
+    // Implement form submission logic here
+    if (this.userForm.valid) {
+      // Form is valid, submit the data
+      console.log(this.userForm.value);
     } else {
-      console.log("Invalid form");
+      // Form is invalid, display error messages
+      // You can access error messages using this.userForm.get('controlName').hasError('errorType')
     }
   }
 }
