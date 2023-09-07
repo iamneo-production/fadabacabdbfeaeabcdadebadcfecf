@@ -1,38 +1,29 @@
-<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" formControlName="firstName">
-    <div id="errorFirstName" *ngIf="userForm.get('firstName').hasError('required')">First Name is required</div>
-    <div id="errorFirstName" *ngIf="userForm.get('firstName').hasError('minlength')">Minimum length: 3 characters</div>
-    <div id="errorFirstName" *ngIf="userForm.get('firstName').hasError('maxlength')">Maximum length: 50 characters</div>
-    <div id="errorFirstName" *ngIf="userForm.get('firstName').hasError('pattern')">Only alphabets allowed</div>
-  </div>
-
-  <div>
-    <label for="gender">Gender:</label>
-    <input type="checkbox" id="gender" formControlName="gender">
-    <div id="errorGender" *ngIf="userForm.get('gender').hasError('required')">Gender is required</div>
-  </div>
-
-  <div>
-    <label for="country">Country of Origin:</label>
-    <input type="text" id="country" formControlName="country">
-    <div id="errorCountry" *ngIf="userForm.get('country').hasError('required')">Country is required</div>
-  </div>
-
-  <div>
-    <label for="city">City of Origin:</label>
-    <input type="text" id="city" formControlName="city">
-    <div id="errorCity" *ngIf="userForm.get('city').hasError('required')">City is required</div>
-  </div>
-
-  <div>
-    <label for="age">Age:</label>
-    <input type="text" id="age" formControlName="age">
-    <div id="errorAge" *ngIf="userForm.get('age').hasError('required') && userForm.get('country').value === 'US'">Age is required for US</div>
-    <div id="errorAge" *ngIf="userForm.get('age').hasError('required') && userForm.get('country').value === 'Canada'">Age is required for Canada</div>
-    <div id="errorAge" *ngIf="userForm.get('age').hasError('required') && userForm.get('country').value === 'India'">Age is required for India</div>
-  </div>
-
-  <button type="submit">Submit</button>
-</form>
+<div class="form">
+  <form [formGroup]="inputForm">
+    <p style="text-align: center;margin-left: 32px;"> Curcency-Convertor</p>
+    <div class="form-group col-md-11" style="margin-left: 15px;">
+      <label>Value</label>
+      <input formControlName="amount" id="amount" class="form-control" >
+    </div>
+    <div class="form-group col-md-11" style="margin-left: 15px">
+      <label>FROM Curcency</label>
+      <select formControlName="fromCurrency" id="fromCurrency" class="form-control" >
+        <option *ngFor="let ind of currency" [value]="ind.value">{{ind.id}}</option>
+      </select>
+    </div>
+    <div class="form-group col-md-11" style="margin-left: 15px">
+      <label>TO Curcency</label>
+      <select formControlName="toCurrency" id="toCurrency" class="form-control" >
+        <option *ngFor="let ind of currency" [value]="ind.value" >{{ind.id}}</option>
+      </select>
+    </div>
+    <div>
+      <button class="btn btn-primary" (click)="submitButton()" style="margin-left: 15px;margin-top: 10px;" id="submitButton" color="primary" type="submit">
+        CLICK ME
+      </button>
+    </div>
+    <div id="result"class="form-group col-md-11" style="margin-left: 15px;">
+      <p id="resValue" style="text-align: center;margin-left: 0px;">{{inputForm.value.resValue }}</p>
+    </div>
+  </form>
+</div>
