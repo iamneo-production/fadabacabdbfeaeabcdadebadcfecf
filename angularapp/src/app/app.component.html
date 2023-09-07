@@ -1,0 +1,84 @@
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="inputFirstname">First Name:</label>
+      <input type="text" id="inputFirstname" formControlName="firstName">
+      <div id="errorFirstName" *ngIf="myForm.get('firstName').invalid">Invalid First Name</div>
+    </div><br>
+    <div>
+      <label for="gender">Gender:</label>
+      <input type="checkbox" id="gender" formControlName="gender">
+      <label>Male</label>
+      <input type="checkbox" id="gender" formControlName="gender">
+      <label>Female</label>
+      <div id="errorGender" *ngIf="myForm.get('gender').invalid ">Invalid Gender</div>
+    </div><br>
+    <div>
+      <label for="country">Country:</label>
+      <select id="country" [formControlName]="'country'">
+        <option value="" disabled selected>Select country</option>
+        <option value="USA">USA</option>
+        <option value="Canada">Canada</option>
+        <option value="India">India</option>
+        <option value="Other">Other</option>
+      </select>
+      <div id="errorCountry" *ngIf="myForm.get('country').invalid">Invalid Country</div>
+    </div><br>
+    <div>
+      <label for="city">City:</label>
+      <input type="text" id="city" formControlName="city">
+      <div id="errorCity" *ngIf="myForm.get('city').invalid">Invalid City</div>
+    </div><br>
+    <div>
+      <label for="inputAge">Age:</label>
+      <input type="number" id="inputAge" formControlName="age">
+      <div id="errorAge" *ngIf="myForm.get('age').invalid">Invalid Age</div>
+    </div><br>
+    <button type="submit" id="submit">Submit</button>
+  </form>
+  <p>myForm value: {{ myForm.value | json }}</p>
+  <p>myForm status: {{ myForm.status | json }}</p>
+  
+ //app.component.ts
+
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit{
+  myForm: FormGroup;
+  constructor(private formBuilder: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.myForm = this.formBuilder.group({
+      firstName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-z]*$')]],
+      gender: ['', Validators.requiredTrue],
+      country: ['', Validators.required],
+      city: ['', Validators.required],
+      age: ['',Validators.required]
+    });
+  }
+  ageValidator(control:any ) {
+    if (
+      control.parent &&
+      control.parent.controls['country'].value &&
+      (control.parent.controls['country'].value === 'US' ||
+        control.parent.controls['country'].value === 'Canada' ||
+        control.parent.controls['country'].value === 'India')
+    ) {
+      return Validators.required(control);
+    }
+
+    return null;
+  }
+  onSubmit(): void {
+    if (this.myForm.valid) {
+      console.log(this.myForm.value);
+    } else {
+      console.log("Invalid form");
+    }
+  }
+}
